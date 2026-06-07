@@ -3,410 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Obsidian — AI Автоматизация</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Unbounded:wght@300;400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Obsidian</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --g:#c9a96e;--g2:#e8c98a;--b:#070708;--w:#f5f4f0;--gr:#666;
-  --card:rgba(255,255,255,0.04);--br:rgba(255,255,255,0.08);
-  --accent:#c9a96e;
-}
+:root{--g:#c9a96e;--g2:#e8c98a;--b:#08080B;--w:#f0efe9;--gr:#666;--card:#111114;--br:rgba(201,169,110,0.12)}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;background:var(--b)}
-body{font-family:'Inter',sans-serif;color:var(--w);overflow-x:hidden;min-height:100vh}
+body{background:var(--b);color:var(--w);font-family:'Inter',sans-serif;overflow-x:hidden;padding-bottom:80px}
 
-/* HERO */
+/* TOP BAR */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px 12px;
+  background:linear-gradient(180deg,rgba(8,8,11,1) 70%,transparent);
+  position:sticky;top:0;z-index:10;
+}
+.logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--g);letter-spacing:-0.5px}
+.logo span{color:var(--w);font-size:11px;font-family:'Inter',sans-serif;font-weight:300;letter-spacing:2px;display:block;margin-top:-2px}
+.cta-top{background:var(--g);color:#000;border:none;border-radius:6px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:none;display:inline-block}
+
+/* HERO — compact */
 .hero{
-  min-height:100svh;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:0 24px 48px;
-  position:relative;overflow:hidden;
+  padding:8px 20px 24px;
+  background:radial-gradient(ellipse 100% 200px at 50% 0%,rgba(201,169,110,0.08),transparent);
+  text-align:center;
 }
-.hero-bg{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,169,110,.12),transparent 60%),
-             radial-gradient(ellipse 40% 40% at 80% 80%,rgba(201,169,110,.06),transparent);
-}
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:linear-gradient(rgba(201,169,110,.04) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(201,169,110,.04) 1px,transparent 1px);
-  background-size:60px 60px;
-  mask-image:radial-gradient(ellipse at 50% 0%,black 30%,transparent 70%);
-}
-.hero-label{
-  font-family:'Unbounded',sans-serif;font-size:9px;letter-spacing:4px;
-  text-transform:uppercase;color:var(--g);margin-bottom:20px;
-  display:flex;align-items:center;gap:10px;
-}
-.hero-label::before{content:'';width:24px;height:1px;background:var(--g)}
-.hero-title{
-  font-family:'Playfair Display',serif;
-  font-size:clamp(44px,12vw,80px);font-weight:900;
-  line-height:1.0;letter-spacing:-2px;margin-bottom:20px;
-}
-.hero-title em{font-style:normal;color:var(--g)}
-.hero-sub{font-size:14px;color:var(--gr);line-height:1.7;max-width:300px;margin-bottom:32px;font-weight:300}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn-p{
-  padding:14px 28px;background:var(--g);color:#000;
-  border:none;border-radius:4px;font-family:'Unbounded',sans-serif;
-  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:.2s;text-decoration:none;display:inline-block;
-}
-.btn-p:active{transform:scale(.97)}
-.btn-s{
-  padding:14px 28px;background:transparent;color:var(--w);
-  border:1px solid var(--br);border-radius:4px;font-family:'Unbounded',sans-serif;
-  font-size:11px;font-weight:400;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:.2s;text-decoration:none;display:inline-block;
-}
-.hero-scroll{position:absolute;right:24px;bottom:48px;writing-mode:vertical-rl;font-size:10px;color:var(--gr);letter-spacing:3px;text-transform:uppercase}
+.hero h1{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:8px}
+.hero h1 em{font-style:normal;color:var(--g)}
+.hero p{font-size:13px;color:var(--gr);margin-bottom:20px;line-height:1.5}
+.hero-btns{display:flex;gap:10px;justify-content:center}
+.btn-p{background:var(--g);color:#000;border:none;border-radius:6px;padding:12px 24px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:none;display:inline-block}
+.btn-s{background:transparent;color:var(--w);border:1px solid var(--br);border-radius:6px;padding:12px 20px;font-size:13px;font-weight:400;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:none;display:inline-block}
 
 /* STATS */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--br);border-bottom:1px solid var(--br)}
-.stat{padding:24px 16px;text-align:center;border-right:1px solid var(--br)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--br);border-bottom:1px solid var(--br);margin:0 0 24px}
+.stat{padding:14px 8px;text-align:center;border-right:1px solid var(--br)}
 .stat:last-child{border-right:none}
-.snum{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--g);display:block;line-height:1}
-.slbl{font-size:9px;color:var(--gr);text-transform:uppercase;letter-spacing:2px;margin-top:4px;display:block}
+.snum{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--g);display:block;line-height:1}
+.slbl{font-size:9px;color:var(--gr);text-transform:uppercase;letter-spacing:1.5px;margin-top:3px;display:block}
 
 /* SECTION */
-.sec{padding:60px 24px}
-.sec-tag{font-family:'Unbounded',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:16px;display:block}
-.sec-title{font-family:'Playfair Display',serif;font-size:clamp(28px,8vw,40px);font-weight:900;line-height:1.1;letter-spacing:-1px;margin-bottom:32px}
+.sec{padding:0 16px 24px}
+.sec-label{font-size:9px;text-transform:uppercase;letter-spacing:3px;color:var(--g);font-weight:600;margin-bottom:12px;display:block}
+.sec-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;margin-bottom:16px;line-height:1.2}
 
-/* PRICE CARDS */
-.price-grid{display:flex;flex-direction:column;gap:2px}
-.pcat{
-  font-family:'Unbounded',sans-serif;font-size:9px;letter-spacing:3px;
-  text-transform:uppercase;color:var(--g);padding:20px 0 10px;
-  border-bottom:1px solid var(--br);margin-bottom:2px;
+/* CATEGORY TABS */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--br);color:var(--gr);background:transparent;font-family:'Inter',sans-serif;transition:.15s}
+.tab.active{background:var(--g);color:#000;border-color:var(--g);font-weight:600}
+
+/* SERVICE CARDS */
+.cards{display:flex;flex-direction:column;gap:8px}
+.card{
+  background:var(--card);border:1px solid var(--br);border-radius:10px;
+  padding:16px;cursor:pointer;display:flex;align-items:center;gap:14px;
+  transition:.15s;active:background:rgba(201,169,110,0.08);
 }
-.pcard{
-  background:var(--card);border:1px solid var(--br);
-  padding:20px;cursor:pointer;transition:.15s;
-  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
-}
-.pcard:active{background:rgba(201,169,110,.06)}
-.pcard.featured{border-color:rgba(201,169,110,.3);background:rgba(201,169,110,.04)}
-.pcard-left{flex:1}
-.pcard-icon{font-size:22px;margin-bottom:8px;display:block}
-.pcard-name{font-size:15px;font-weight:500;margin-bottom:4px}
-.pcard-desc{font-size:12px;color:var(--gr);line-height:1.5}
-.pcard-days{font-size:10px;color:var(--g);margin-top:6px;font-family:'Unbounded',sans-serif;letter-spacing:1px}
-.pcard-right{text-align:right;flex-shrink:0}
-.pcard-price{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--g);white-space:nowrap}
-.pcard-from{font-size:10px;color:var(--gr);margin-bottom:2px}
-.pcard-badge{
-  display:inline-block;background:var(--g);color:#000;
-  font-size:8px;font-family:'Unbounded',sans-serif;font-weight:600;
-  padding:2px 8px;border-radius:2px;letter-spacing:1px;margin-top:4px;
-  text-transform:uppercase;
-}
-
-/* HOW */
-.steps{display:flex;flex-direction:column;gap:0}
-.step{display:flex;gap:20px;padding:28px 0;border-bottom:1px solid var(--br)}
-.step:last-child{border-bottom:none}
-.stepn{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:rgba(201,169,110,.1);line-height:1;flex-shrink:0;width:52px;text-align:right}
-.stept{font-size:16px;font-weight:500;margin-bottom:6px}
-.stepd{font-size:13px;color:var(--gr);line-height:1.6}
-
-/* CTA */
-.cta{padding:60px 24px;text-align:center;position:relative}
-.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(201,169,110,.08),transparent 70%);pointer-events:none}
-.cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,8vw,36px);font-weight:900;margin-bottom:12px;line-height:1.1}
-.cta-sub{font-size:14px;color:var(--gr);margin-bottom:32px;line-height:1.6}
-.cta-urgent{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);
-  border-radius:4px;padding:8px 16px;font-size:12px;color:#f87171;
-  font-family:'Unbounded',sans-serif;letter-spacing:1px;margin-bottom:28px;
-}
-.cta-urgent::before{content:'';width:6px;height:6px;background:#ef4444;border-radius:50%;animation:blink 1s infinite}
-
-/* PAY */
-.pay{padding:32px 24px;border-top:1px solid var(--br)}
-.pay-title{font-size:10px;color:var(--gr);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;font-family:'Unbounded',sans-serif}
-.pay-box{background:var(--card);border:1px solid var(--br);border-radius:4px;padding:20px;font-size:13px;color:#999;line-height:2.2}
-.pay-box strong{color:var(--w)}
-
-/* FOOTER */
-footer{padding:24px;text-align:center;font-size:11px;color:#333;border-top:1px solid var(--br)}
-footer a{color:var(--g);text-decoration:none}
+.card.hot{border-color:rgba(201,169,110,0.3)}
+.card-icon{font-size:28px;flex-shrink:0;width:44px;height:44px;background:rgba(201,169,110,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.card-body{flex:1}
+.card-name{font-size:15px;font-weight:500;margin-bottom:3px}
+.card-desc{font-size:12px;color:var(--gr);line-height:1.4}
+.card-meta{display:flex;align-items:center;gap:8px;margin-top:6px}
+.card-days{font-size:10px;color:var(--g);font-weight:500}
+.card-badge{font-size:9px;background:var(--g);color:#000;padding:2px 7px;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.card-price{text-align:right;flex-shrink:0}
+.price-from{font-size:9px;color:var(--gr)}
+.price-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:var(--g);white-space:nowrap}
+.card-arrow{font-size:16px;color:var(--gr);margin-left:4px}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:.3s}
-.modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:#111;border-top:1px solid var(--br);border-radius:16px 16px 0 0;padding:32px 24px 48px;width:100%;transform:translateY(100%);transition:.3s}
-.modal-overlay.open .modal{transform:translateY(0)}
-.modal-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;margin-bottom:8px}
-.modal-price{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--g);margin-bottom:16px}
-.modal-desc{font-size:14px;color:var(--gr);line-height:1.7;margin-bottom:24px}
-.modal-close{position:absolute;top:16px;right:24px;font-size:24px;color:var(--gr);cursor:pointer;line-height:1}
-.modal-btn{width:100%;padding:16px;background:var(--g);color:#000;border:none;border-radius:4px;font-family:'Unbounded',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;cursor:pointer;text-transform:uppercase}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:.25s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:#111114;border-top:1px solid var(--br);
+  border-radius:20px 20px 0 0;padding:24px 20px 40px;
+  width:100%;transform:translateY(100%);transition:.25s;
+  max-height:85vh;overflow-y:auto;
+}
+.overlay.open .modal{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--br);border-radius:2px;margin:0 auto 20px}
+.modal-icon{font-size:40px;margin-bottom:12px;display:block}
+.modal-name{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;margin-bottom:6px}
+.modal-price{font-size:28px;font-weight:700;color:var(--g);margin-bottom:16px;font-family:'Playfair Display',serif}
+.modal-desc{font-size:14px;color:#aaa;line-height:1.7;margin-bottom:20px}
 
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.hero-content{position:relative;z-index:1;animation:up .6s ease both}
+/* FEATURES LIST */
+.features{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.feature{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.4}
+.feature::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0;margin-top:1px}
+
+.modal-close{position:absolute;top:16px;right:20px;font-size:22px;color:var(--gr);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.modal-btn{width:100%;padding:15px;background:var(--g);color:#000;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+
+/* BOTTOM FIXED */
+.bottom-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(8,8,11,0.95);backdrop-filter:blur(20px);
+  border-top:1px solid var(--br);padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between;z-index:9;
+}
+.bottom-price{font-size:11px;color:var(--gr)}
+.bottom-price strong{color:var(--w);font-size:14px;display:block}
+.bottom-btn{background:var(--g);color:#000;border:none;border-radius:8px;padding:11px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:none;display:inline-block}
+
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.cards .card{animation:slideUp .3s ease both}
+.cards .card:nth-child(2){animation-delay:.05s}
+.cards .card:nth-child(3){animation-delay:.1s}
+.cards .card:nth-child(4){animation-delay:.15s}
+.cards .card:nth-child(5){animation-delay:.2s}
 </style>
 </head>
 <body>
 
+<!-- TOP -->
+<div class="topbar">
+  <div class="logo">OBSIDIAN<span>AI АГЕНТСТВО</span></div>
+  <a href="https://t.me/Bloge11r_bot" class="cta-top">Заказать</a>
+</div>
+
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-content">
-    <div class="hero-label">AI Agency · Obsidian</div>
-    <h1 class="hero-title">Автоматизация<br><em>бизнеса</em></h1>
-    <p class="hero-sub">Telegram боты, WhatsApp боты, AI агенты и лендинги — под ключ за 2-7 дней</p>
-    <div class="hero-btns">
-      <a href="https://t.me/Bloge11r_bot" class="btn-p">Заказать сейчас</a>
-      <a href="#services" class="btn-s">Прайс</a>
-    </div>
+<div class="hero">
+  <h1>Автоматизируем<br><em>ваш бизнес</em></h1>
+  <p>Telegram боты, WhatsApp, AI агенты — за 2-7 дней</p>
+  <div class="hero-btns">
+    <a href="#services" class="btn-p" onclick="scrollToServices()">Смотреть услуги</a>
+    <a href="https://t.me/Bloge11r_bot" class="btn-s">Написать</a>
   </div>
-  <div class="hero-scroll">Листай вниз</div>
-</section>
+</div>
 
 <!-- STATS -->
 <div class="stats">
   <div class="stat"><span class="snum">50+</span><span class="slbl">Проектов</span></div>
-  <div class="stat"><span class="snum">3</span><span class="slbl">Дня срок</span></div>
+  <div class="stat"><span class="snum">2-7</span><span class="slbl">Дней срок</span></div>
   <div class="stat"><span class="snum">50%</span><span class="slbl">Предоплата</span></div>
 </div>
 
-<!-- PRICE -->
-<section class="sec" id="services">
-  <span class="sec-tag">Услуги и цены</span>
-  <h2 class="sec-title">Что мы делаем</h2>
-
-  <div class="price-grid">
-
-    <div class="pcat">📱 Telegram Боты</div>
-
-    <div class="pcard featured" onclick="openModal('vizitka')">
-      <div class="pcard-left">
-        <span class="pcard-icon">🪪</span>
-        <div class="pcard-name">Бот-визитка</div>
-        <div class="pcard-desc">Меню, о нас, услуги, контакты, кнопки</div>
-        <div class="pcard-days">⚡ 2 дня</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">3 000₽</div>
-      </div>
-    </div>
-
-    <div class="pcard" onclick="openModal('booking')">
-      <div class="pcard-left">
-        <span class="pcard-icon">📅</span>
-        <div class="pcard-name">Бот записи клиентов</div>
-        <div class="pcard-desc">Выбор времени, напоминания, отмена записи</div>
-        <div class="pcard-days">⚡ 3 дня</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">5 000₽</div>
-        <div class="pcard-badge">Хит</div>
-      </div>
-    </div>
-
-    <div class="pcard" onclick="openModal('faq')">
-      <div class="pcard-left">
-        <span class="pcard-icon">❓</span>
-        <div class="pcard-name">FAQ бот</div>
-        <div class="pcard-desc">Ответы на частые вопросы, поиск, категории</div>
-        <div class="pcard-days">⚡ 2 дня</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">4 000₽</div>
-      </div>
-    </div>
-
-    <div class="pcard" onclick="openModal('payment')">
-      <div class="pcard-left">
-        <span class="pcard-icon">💳</span>
-        <div class="pcard-name">Бот с оплатой</div>
-        <div class="pcard-desc">Инвойсы, Telegram Stars, ЮКасса, приём платежей</div>
-        <div class="pcard-days">⚡ 4 дня</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">8 000₽</div>
-      </div>
-    </div>
-
-    <div class="pcard featured" onclick="openModal('ai')">
-      <div class="pcard-left">
-        <span class="pcard-icon">🤖</span>
-        <div class="pcard-name">AI бот с памятью</div>
-        <div class="pcard-desc">GPT/Claude, помнит клиента, отвечает как человек</div>
-        <div class="pcard-days">⚡ 7 дней</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">15 000₽</div>
-        <div class="pcard-badge">Топ</div>
-      </div>
-    </div>
-
-    <div class="pcat">💬 WhatsApp Боты</div>
-
-    <div class="pcard" onclick="openModal('wa')">
-      <div class="pcard-left">
-        <span class="pcard-icon">📲</span>
-        <div class="pcard-name">WhatsApp бот базовый</div>
-        <div class="pcard-desc">Автоответы, меню, FAQ, приём заявок</div>
-        <div class="pcard-days">⚡ 3 дня</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">6 000₽</div>
-      </div>
-    </div>
-
-    <div class="pcard" onclick="openModal('wacrm')">
-      <div class="pcard-left">
-        <span class="pcard-icon">⚡</span>
-        <div class="pcard-name">WhatsApp + CRM</div>
-        <div class="pcard-desc">Бот + база клиентов + уведомления менеджеру</div>
-        <div class="pcard-days">⚡ 5 дней</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">12 000₽</div>
-      </div>
-    </div>
-
-    <div class="pcat">🌐 Сайты и Автоматизация</div>
-
-    <div class="pcard" onclick="openModal('landing')">
-      <div class="pcard-left">
-        <span class="pcard-icon">🖥️</span>
-        <div class="pcard-name">Лендинг</div>
-        <div class="pcard-desc">Красивый сайт-визитка на GitHub Pages, SEO</div>
-        <div class="pcard-days">⚡ 3 дня</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">5 000₽</div>
-      </div>
-    </div>
-
-    <div class="pcard" onclick="openModal('n8n')">
-      <div class="pcard-left">
-        <span class="pcard-icon">⚙️</span>
-        <div class="pcard-name">n8n Автоматизация</div>
-        <div class="pcard-desc">Отчёты, лиды, рассылки, CRM, интеграции</div>
-        <div class="pcard-days">⚡ 4 дня</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">8 000₽</div>
-      </div>
-    </div>
-
-    <div class="pcard featured" onclick="openModal('full')">
-      <div class="pcard-left">
-        <span class="pcard-icon">🏢</span>
-        <div class="pcard-name">Полная автоматизация</div>
-        <div class="pcard-desc">Бот + сайт + CRM + уведомления + поддержка</div>
-        <div class="pcard-days">⚡ 10-14 дней</div>
-      </div>
-      <div class="pcard-right">
-        <div class="pcard-from">от</div>
-        <div class="pcard-price">25 000₽</div>
-        <div class="pcard-badge">Всё включено</div>
-      </div>
-    </div>
-
+<!-- SERVICES -->
+<div class="sec" id="services">
+  <span class="sec-label">Услуги</span>
+  <div class="tabs">
+    <button class="tab active" onclick="filterCat('all',this)">Все</button>
+    <button class="tab" onclick="filterCat('tg',this)">📱 Telegram</button>
+    <button class="tab" onclick="filterCat('wa',this)">💬 WhatsApp</button>
+    <button class="tab" onclick="filterCat('web',this)">🌐 Сайты</button>
+    <button class="tab" onclick="filterCat('ai',this)">🤖 AI</button>
   </div>
-</section>
-
-<!-- HOW -->
-<section class="sec" style="padding-top:0">
-  <span class="sec-tag">Как работаем</span>
-  <h2 class="sec-title">4 шага до результата</h2>
-  <div class="steps">
-    <div class="step"><div class="stepn">1</div><div><div class="stept">Обсуждаем задачу</div><div class="stepd">Рассказываете о бизнесе — предлагаем лучшее решение. Бесплатно.</div></div></div>
-    <div class="step"><div class="stepn">2</div><div><div class="stept">Предоплата 50%</div><div class="stepd">После договорённости оплачиваете половину — берёмся в работу в тот же день.</div></div></div>
-    <div class="step"><div class="stepn">3</div><div><div class="stept">Разрабатываем</div><div class="stepd">2-7 дней — и бот готов. Показываем прогресс каждый день.</div></div></div>
-    <div class="step"><div class="stepn">4</div><div><div class="stept">Сдаём под ключ</div><div class="stepd">Деплоим, настраиваем, обучаем. Остаток оплаты только после приёма.</div></div></div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta">
-  <div class="cta-glow"></div>
-  <div class="cta-urgent">Есть свободный слот — возьмём в работу сегодня</div>
-  <h2 class="cta-title">Готовы автоматизировать<br>ваш бизнес?</h2>
-  <p class="cta-sub">Напишите Дамиру — ответим за 5 минут и предложим лучшее решение</p>
-  <a href="https://t.me/Bloge11r_bot" class="btn-p">Написать Дамиру →</a>
-</section>
-
-<!-- PAY -->
-<div class="pay">
-  <div class="pay-title">Реквизиты для оплаты</div>
-  <div class="pay-box">
-    <strong>Альфа Банк</strong><br>
-    Рустамов Ахмаджон Юнусович<br>
-    +7 901 772 55 91<br>
-    Предоплата 50% · Остаток после сдачи
-  </div>
+  <div class="cards" id="cards"></div>
 </div>
 
-<!-- FOOTER -->
-<footer>© 2025 Obsidian · <a href="https://t.me/Bloge11r_bot">@Bloge11r_bot</a></footer>
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <div class="bottom-price">
+    <strong>от 3 000₽</strong>
+    Предоплата 50%
+  </div>
+  <a href="https://t.me/Bloge11r_bot" class="bottom-btn">Написать Дамиру →</a>
+</div>
 
 <!-- MODAL -->
-<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal" style="position:relative">
-    <span class="modal-close" onclick="closeModal()">×</span>
-    <div id="modal-icon" style="font-size:36px;margin-bottom:12px"></div>
-    <div class="modal-title" id="modal-name"></div>
-    <div class="modal-price" id="modal-price"></div>
-    <div class="modal-desc" id="modal-desc"></div>
-    <button class="modal-btn" onclick="order()">Заказать сейчас</button>
+    <div class="modal-handle"></div>
+    <span class="modal-close" onclick="closeModal()">✕</span>
+    <span class="modal-icon" id="m-icon"></span>
+    <div class="modal-name" id="m-name"></div>
+    <div class="modal-price" id="m-price"></div>
+    <div class="modal-desc" id="m-desc"></div>
+    <div class="features" id="m-features"></div>
+    <button class="modal-btn" onclick="order()">Заказать сейчас →</button>
   </div>
 </div>
 
 <script>
-var PRODUCTS = {
-  vizitka:{icon:'🪪',name:'Бот-визитка',price:'от 3 000₽',desc:'Красивый бот с меню, разделами о компании, услугами и контактами. Идеально для старта. Деплой на Render бесплатно. Подходит для любого бизнеса.'},
-  booking:{icon:'📅',name:'Бот записи клиентов',price:'от 5 000₽',desc:'Клиент выбирает удобное время, получает подтверждение и напоминание. Вы получаете уведомление о каждой записи. Работает 24/7 без участия человека.'},
-  faq:{icon:'❓',name:'FAQ бот',price:'от 4 000₽',desc:'Отвечает на частые вопросы автоматически. Освобождает вас от рутинных ответов. Можно добавить любые категории и ответы.'},
-  payment:{icon:'💳',name:'Бот с оплатой',price:'от 8 000₽',desc:'Принимает оплату прямо в Telegram через Stars, ЮКассу или СБП. Автоматически выдаёт доступ после оплаты. Идеально для курсов и услуг.'},
-  ai:{icon:'🤖',name:'AI бот с памятью',price:'от 15 000₽',desc:'Умный бот на Claude или GPT — помнит каждого клиента, отвечает как живой менеджер, понимает контекст разговора. Самое популярное решение.'},
-  wa:{icon:'📲',name:'WhatsApp бот базовый',price:'от 6 000₽',desc:'Автоответы, меню услуг, приём заявок в WhatsApp. Клиенты получают мгновенный ответ в любое время. Подключение через WhatsApp Business API.'},
-  wacrm:{icon:'⚡',name:'WhatsApp + CRM',price:'от 12 000₽',desc:'Бот + база клиентов в Supabase + уведомления менеджеру о каждом обращении. Полноценная система управления клиентами.'},
-  landing:{icon:'🖥️',name:'Лендинг',price:'от 5 000₽',desc:'Красивый сайт-визитка на GitHub Pages — бесплатный хостинг навсегда. Мобильная адаптация, SEO, ваш домен. Готово за 3 дня.'},
-  n8n:{icon:'⚙️',name:'n8n Автоматизация',price:'от 8 000₽',desc:'Автоматические отчёты, сбор лидов, рассылки по базе, интеграция с CRM, уведомления — всё без кода. Экономит десятки часов в месяц.'},
-  full:{icon:'🏢',name:'Полная автоматизация',price:'от 25 000₽',desc:'Бот + сайт + CRM + автоотчёты + уведомления + техподдержка 1 месяц. Полностью берём ваш бизнес на автопилот. Предоплата 30%.'},
-};
+var SERVICES = [
+  {id:'vizitka',cat:'tg',icon:'🪪',name:'Бот-визитка',price:'от 3 000₽',days:'2 дня',
+   desc:'Красивый бот с меню, разделами и контактами. Первый шаг в автоматизации для любого бизнеса.',
+   features:['Главное меню с разделами','О компании, услуги, контакты','Кнопки для связи с менеджером','Деплой на Render бесплатно','Исходный код на GitHub']},
 
-function openModal(key){
-  var p=PRODUCTS[key];if(!p)return;
-  document.getElementById('modal-icon').textContent=p.icon;
-  document.getElementById('modal-name').textContent=p.name;
-  document.getElementById('modal-price').textContent=p.price;
-  document.getElementById('modal-desc').textContent=p.desc;
-  document.getElementById('modal').classList.add('open');
+  {id:'booking',cat:'tg',icon:'📅',name:'Бот записи',price:'от 5 000₽',days:'3 дня',badge:'Хит',
+   desc:'Клиент выбирает удобное время, получает подтверждение и напоминание. Работает 24/7 без вашего участия.',
+   features:['Выбор даты и времени','Подтверждение записи','Напоминание за 2 часа','Отмена/перенос записи','Уведомление администратору']},
+
+  {id:'faq',cat:'tg',icon:'❓',name:'FAQ бот',price:'от 4 000₽',days:'2 дня',
+   desc:'Отвечает на частые вопросы автоматически. Клиент получает ответ мгновенно, вы не тратите время.',
+   features:['Категории вопросов','Поиск по ключевым словам','Неограниченное кол-во ответов','Кнопка связи с менеджером','Статистика популярных вопросов']},
+
+  {id:'payment',cat:'tg',icon:'💳',name:'Бот с оплатой',price:'от 8 000₽',days:'4 дня',
+   desc:'Принимает оплату прямо в Telegram. Клиент платит — сразу получает доступ или товар.',
+   features:['Telegram Stars / ЮКасса / СБП','Автоматическая выдача доступа','Уведомление об оплате','История транзакций','Возвраты и отмены']},
+
+  {id:'ai-bot',cat:'ai',icon:'🤖',name:'AI бот с памятью',price:'от 15 000₽',days:'7 дней',badge:'Топ',
+   desc:'Умный бот на Claude или GPT — помнит каждого клиента, понимает контекст, отвечает как живой менеджер.',
+   features:['Память каждого клиента','Понимает сложные вопросы','Работает как менеджер 24/7','Интеграция с базой данных','Обучение на ваших данных']},
+
+  {id:'wa-base',cat:'wa',icon:'📲',name:'WhatsApp бот базовый',price:'от 6 000₽',days:'3 дня',
+   desc:'Автоответы, меню услуг и приём заявок в WhatsApp. Клиенты получают ответ мгновенно.',
+   features:['Автоответы на сообщения','Меню услуг','Приём заявок','Уведомление менеджеру','WhatsApp Business API']},
+
+  {id:'wa-crm',cat:'wa',icon:'⚡',name:'WhatsApp + CRM',price:'от 12 000₽',days:'5 дней',
+   desc:'Бот + база клиентов в облаке + уведомления менеджеру. Полноценная система управления клиентами.',
+   features:['Всё из базового бота','База клиентов Supabase','История переписки','Теги и статусы клиентов','Аналитика обращений']},
+
+  {id:'landing',cat:'web',icon:'🖥️',name:'Лендинг',price:'от 5 000₽',days:'3 дня',
+   desc:'Современный сайт-визитка на GitHub Pages. Бесплатный хостинг навсегда, SEO, мобильная адаптация.',
+   features:['Современный дизайн','Мобильная адаптация','SEO оптимизация','Бесплатный хостинг','Подключение своего домена']},
+
+  {id:'n8n',cat:'web',icon:'⚙️',name:'n8n Автоматизация',price:'от 8 000₽',days:'4 дня',
+   desc:'Автоматические отчёты, сбор лидов, рассылки по базе, интеграция с CRM — всё без кода.',
+   features:['Автоматические отчёты','Сбор лидов с форм','Рассылки по базе','Интеграция с CRM','Уведомления в Telegram']},
+
+  {id:'full',cat:'ai',icon:'🏢',name:'Полная автоматизация',price:'от 25 000₽',days:'14 дней',badge:'Всё включено',
+   desc:'Бот + сайт + CRM + автоотчёты + техподдержка 1 месяц. Берём бизнес на автопилот полностью.',
+   features:['Telegram бот под ключ','Лендинг с SEO','CRM система','Автоотчёты в Telegram','Техподдержка 1 месяц']},
+];
+
+var currentCat = 'all';
+
+function renderCards(cat) {
+  var list = cat === 'all' ? SERVICES : SERVICES.filter(function(s){return s.cat===cat});
+  var html = '';
+  list.forEach(function(s) {
+    html += '<div class="card'+(s.badge?' hot':'')+'" onclick="openModal(\''+s.id+'\')">'+
+      '<div class="card-icon">'+s.icon+'</div>'+
+      '<div class="card-body">'+
+        '<div class="card-name">'+s.name+'</div>'+
+        '<div class="card-desc">'+s.desc.slice(0,60)+'...</div>'+
+        '<div class="card-meta">'+
+          '<span class="card-days">⚡ '+s.days+'</span>'+
+          (s.badge?'<span class="card-badge">'+s.badge+'</span>':'')+
+        '</div>'+
+      '</div>'+
+      '<div class="card-price">'+
+        '<div class="price-from">от</div>'+
+        '<div class="price-val">'+s.price.replace('от ','')+'</div>'+
+      '</div>'+
+    '</div>';
+  });
+  document.getElementById('cards').innerHTML = html;
 }
-function closeModal(e){
-  if(e&&e.target!==document.getElementById('modal'))return;
-  document.getElementById('modal').classList.remove('open');
+
+function filterCat(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  el.classList.add('active');
+  renderCards(cat);
 }
-function order(){
-  window.open('https://t.me/Bloge11r_bot','_blank');
-  document.getElementById('modal').classList.remove('open');
+
+function openModal(id) {
+  var s = SERVICES.find(function(x){return x.id===id});
+  if(!s) return;
+  document.getElementById('m-icon').textContent = s.icon;
+  document.getElementById('m-name').textContent = s.name;
+  document.getElementById('m-price').textContent = s.price;
+  document.getElementById('m-desc').textContent = s.desc;
+  var feats = s.features.map(function(f){return '<div class="feature">'+f+'</div>'}).join('');
+  document.getElementById('m-features').innerHTML = feats;
+  document.getElementById('overlay').classList.add('open');
 }
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+function order() {
+  window.open('https://t.me/Bloge11r_bot', '_blank');
+  closeModal();
+}
+
+function scrollToServices() {
+  document.getElementById('services').scrollIntoView({behavior:'smooth'});
+}
+
+// Init
+renderCards('all');
 
 // Telegram WebApp
-if(window.Telegram&&window.Telegram.WebApp){
-  var tg=window.Telegram.WebApp;
-  tg.ready();tg.expand();
-  if(tg.colorScheme==='light'){document.documentElement.style.setProperty('--b','#f5f4f0');document.documentElement.style.setProperty('--w','#070708');}
+if(window.Telegram && window.Telegram.WebApp) {
+  var tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand();
+  tg.BackButton.onClick(function(){ closeModal(); });
 }
 </script>
 </body>
